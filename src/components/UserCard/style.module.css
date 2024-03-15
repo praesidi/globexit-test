@@ -1,0 +1,33 @@
+.wrapper {
+	width: 100%;
+	min-height: 320px;
+	padding: 24px;
+
+	border-radius: 16px;
+	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.102);
+}
+
+.title {
+	margin-bottom: 24px;
+
+	font-size: 24px;
+	line-height: 30px;
+	font-weight: 700;
+	text-align: left;
+}
+
+.row {
+	display: flex;
+}
+
+.icon-wrapper {
+	display: inline-block;
+	margin-right: 12px;
+	width: 30px;
+}
+
+.value {
+	color: #8189a3;
+	font-size: 14px;
+	line-height: 20px;
+}
