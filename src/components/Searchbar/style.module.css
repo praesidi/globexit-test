@@ -1,0 +1,27 @@
+.wrapper {
+	position: relative;
+}
+
+.input {
+	height: 48px;
+	width: 100%;
+	padding: 8px 16px;
+
+	border-radius: 9999px;
+	border: 1px solid #d4defe;
+	outline: none;
+
+	font-size: 18px;
+	letter-spacing: 1px;
+}
+
+.input:focus {
+	border: 1px solid #9da4bd;
+}
+
+.icon {
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
