@@ -1,11 +1,11 @@
 .wrapper {
-	position: absolute;
+	position: fixed;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 
 	height: 100vh;
-	width: 100%;
+	width: 100vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -90,4 +90,5 @@
 .additional-information-wrapper p {
 	text-align: justify;
 	color: #8189a3;
+	line-height: 18px;
 }
