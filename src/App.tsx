@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Searchbar from './components/Searchbar';
+import Modal from './components/Modal';
+import useFetch from './hooks/useFetch';
+import Error from './components/Error';
+import getUrl from './helpers/getUrl';
+import UserList from './components/UserList';
+import { User } from './types';
+import LoaderSpinner from './components/LoaderSpinner';
+import useDebounce from './hooks/useDebounce';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [selectedUser, setSelectedUser] = useState<User>();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+	const query = useMemo(() => searchParams.get('query') || '', [searchParams]);
 
-export default App
+	const debouncedSearchTerm = useDebounce(query, 1000);
+
+	const url = useMemo(
+		() => getUrl(debouncedSearchTerm || ''),
+		[debouncedSearchTerm],
+	);
+
+	const { data, isLoading, error } = useFetch(url);
+
+	// prevents scroll when modal is open
+	useEffect(() => {
+		if (isModalOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
+	}, [isModalOpen]);
+
+	const handleSearchbarChange = (value: string) => {
+		searchParams.set('query', value);
+		setSearchParams(searchParams);
+	};
+
+	const handleCardClick = (user: User) => {
+		setSelectedUser(user);
+		setIsModalOpen(true);
+	};
+
+	if (error) {
+		<Error>{error}</Error>;
+	}
+
+	return (
+		<>
+			<Searchbar
+				value={searchParams.get('query') || ''}
+				onChange={handleSearchbarChange}
+			/>
+			{isLoading ? (
+				<LoaderSpinner />
+			) : (
+				<UserList data={data} onClick={handleCardClick} />
+			)}
+			{isModalOpen ? (
+				<Modal user={selectedUser} onClose={() => setIsModalOpen(false)} />
+			) : null}
+		</>
+	);
+};
+
+export default App;
