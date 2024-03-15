@@ -2,9 +2,9 @@ import styles from './style.module.css';
 import phoneIcon from '../../assets/icons/phone.svg';
 import emailIcon from '../../assets/icons/email.svg';
 import { UserCardProps } from '../../types';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
-const UserCard: FC<UserCardProps> = ({ data, onClick }) => {
+const UserCard: FC<UserCardProps> = memo(({ data, onClick }) => {
 	return (
 		<div className={styles.wrapper} onClick={() => onClick(data)}>
 			<div className={styles.title}>{data.name}</div>
@@ -28,6 +28,6 @@ const UserCard: FC<UserCardProps> = ({ data, onClick }) => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default UserCard;

@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { UserListProps } from '../../types';
 import UserCard from '../UserCard';
 import styles from './styles.module.css';
 
-const UserList: FC<UserListProps> = ({ data, onClick }) => {
+const UserList: FC<UserListProps> = memo(({ data, onClick }) => {
 	return (
 		<>
 			{data ? (
@@ -17,6 +17,6 @@ const UserList: FC<UserListProps> = ({ data, onClick }) => {
 			)}
 		</>
 	);
-};
+});
 
 export default UserList;
