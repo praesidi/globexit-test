@@ -1,13 +1,9 @@
 import styles from './style.module.css';
 import searchIcon from '../../assets/icons/search.svg';
+import { SearchBarProps } from '../../types';
+import { FC } from 'react';
 
-const Searchbar = ({
-	value,
-	onChange,
-}: {
-	value: string;
-	onChange: (args0: string) => void;
-}) => {
+const Searchbar: FC<SearchBarProps> = ({ value, onChange }) => {
 	return (
 		<div className={styles.wrapper}>
 			<input
